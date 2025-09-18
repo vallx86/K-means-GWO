@@ -1,34 +1,34 @@
-#!/usr/bin/env python3
-"""
-Complete GWO-K-Means vs Standard K-Means Clustering Analysis Application
-with comprehensive PCA analysis and advanced visualizations.
-"""
+    #!/usr/bin/env python3
+    """
+    Complete GWO-K-Means vs Standard K-Means Clustering Analysis Application
+    with comprehensive PCA analysis and advanced visualizations.
+    """
 
-import sys
-import os
-import time
-import threading
-import tkinter as tk
-from tkinter import ttk, filedialog, messagebox, scrolledtext
-import numpy as np
-import pandas as pd
-import matplotlib
-matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
-plt.style.use('seaborn-v0_8')
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
-from matplotlib.patches import Rectangle
-import seaborn as sns
+    import sys
+    import os
+    import time
+    import threading
+    import tkinter as tk
+    from tkinter import ttk, filedialog, messagebox, scrolledtext
+    import numpy as np
+    import pandas as pd
+    import matplotlib
+    matplotlib.use('TkAgg')
+    import matplotlib.pyplot as plt
+    plt.style.use('seaborn-v0_8')
+    from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+    from matplotlib.figure import Figure
+    from matplotlib.patches import Rectangle
+    import seaborn as sns
 
-# Scientific computing imports
-from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.decomposition import PCA
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score, pairwise_distances, silhouette_samples
+    # Scientific computing imports
+    from sklearn.impute import SimpleImputer
+    from sklearn.preprocessing import MinMaxScaler
+    from sklearn.decomposition import PCA
+    from sklearn.cluster import KMeans
+    from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score, pairwise_distances, silhouette_samples
 
-class GWOKMeansApp:
+    class GWOKMeansApp:
     def __init__(self, root):
         self.root = root
         self.root.title("PCA-Enhanced GWO-K-Means vs Standard K-Means Clustering Analysis")
@@ -92,7 +92,7 @@ class GWOKMeansApp:
         upload_frame.pack(fill=tk.X, padx=10, pady=5)
         
         ttk.Button(upload_frame, text="Upload Data File (Excel/CSV)", 
-                  command=self.upload_file).pack(side=tk.LEFT, padx=5)
+                    command=self.upload_file).pack(side=tk.LEFT, padx=5)
         
         self.file_label = ttk.Label(upload_frame, text="No file selected")
         self.file_label.pack(side=tk.LEFT, padx=10)
@@ -166,20 +166,20 @@ class GWOKMeansApp:
         self.process_data_button.pack(side=tk.LEFT, padx=5)
         
         self.run_kmeans_button = ttk.Button(run_frame, text="2. Run K-Means", 
-                                          command=self.run_standard_kmeans, state='disabled')
+                                            command=self.run_standard_kmeans, state='disabled')
         self.run_kmeans_button.pack(side=tk.LEFT, padx=5)
         
         self.run_gwo_button = ttk.Button(run_frame, text="3. Run GWO-K-Means", 
-                                       command=self.run_gwo_optimization, state='disabled')
+                                        command=self.run_gwo_optimization, state='disabled')
         self.run_gwo_button.pack(side=tk.LEFT, padx=5)
         
         self.run_all_button = ttk.Button(run_frame, text="🚀 Run Complete Analysis", 
-                                       command=self.run_complete_analysis, state='disabled')
+                                        command=self.run_complete_analysis, state='disabled')
         self.run_all_button.pack(side=tk.LEFT, padx=10)
         
         self.progress = ttk.Progressbar(run_frame, mode='indeterminate')
         self.progress.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=10)
-    
+
     def setup_pca_tab(self):
         self.pca_frame = ttk.Frame(self.notebook)
         self.notebook.add(self.pca_frame, text="PCA Analysis")
@@ -205,16 +205,16 @@ class GWOKMeansApp:
         pca_controls.pack(fill=tk.X, pady=5)
         
         ttk.Button(pca_controls, text="Show Explained Variance", 
-                  command=self.show_explained_variance).pack(side=tk.LEFT, padx=5)
+                    command=self.show_explained_variance).pack(side=tk.LEFT, padx=5)
         ttk.Button(pca_controls, text="Show PCA Components", 
-                  command=self.show_pca_components).pack(side=tk.LEFT, padx=5)
+                    command=self.show_pca_components).pack(side=tk.LEFT, padx=5)
         ttk.Button(pca_controls, text="Show Cumulative Variance", 
-                  command=self.show_cumulative_variance).pack(side=tk.LEFT, padx=5)
+                    command=self.show_cumulative_variance).pack(side=tk.LEFT, padx=5)
         ttk.Button(pca_controls, text="Show 2D Projection", 
-                  command=self.show_2d_projection).pack(side=tk.LEFT, padx=5)
+                    command=self.show_2d_projection).pack(side=tk.LEFT, padx=5)
         ttk.Button(pca_controls, text="Show PCA Biplot", 
-                  command=self.show_pca_biplot).pack(side=tk.LEFT, padx=5)
-    
+                    command=self.show_pca_biplot).pack(side=tk.LEFT, padx=5)
+
     def setup_results_tab(self):
         self.results_frame = ttk.Frame(self.notebook)
         self.notebook.add(self.results_frame, text="Clustering Results")
@@ -240,16 +240,16 @@ class GWOKMeansApp:
         viz_controls.pack(fill=tk.X, pady=5)
         
         ttk.Button(viz_controls, text="Side-by-Side Clustering", 
-                  command=self.show_side_by_side_clusters).pack(side=tk.LEFT, padx=5)
+                    command=self.show_side_by_side_clusters).pack(side=tk.LEFT, padx=5)
         ttk.Button(viz_controls, text="Metrics Comparison", 
-                  command=self.show_metrics_comparison).pack(side=tk.LEFT, padx=5)
+                    command=self.show_metrics_comparison).pack(side=tk.LEFT, padx=5)
         ttk.Button(viz_controls, text="Convergence Analysis", 
-                  command=self.show_convergence_analysis).pack(side=tk.LEFT, padx=5)
+                    command=self.show_convergence_analysis).pack(side=tk.LEFT, padx=5)
         ttk.Button(viz_controls, text="Quality Heatmap", 
-                  command=self.show_quality_heatmap).pack(side=tk.LEFT, padx=5)
+                    command=self.show_quality_heatmap).pack(side=tk.LEFT, padx=5)
         ttk.Button(viz_controls, text="Cluster Quality Analysis", 
-                  command=self.show_cluster_quality_analysis).pack(side=tk.LEFT, padx=5)
-    
+                    command=self.show_cluster_quality_analysis).pack(side=tk.LEFT, padx=5)
+
     def setup_evaluation_tab(self):
         self.evaluation_frame = ttk.Frame(self.notebook)
         self.notebook.add(self.evaluation_frame, text="Detailed Evaluation")
@@ -260,7 +260,7 @@ class GWOKMeansApp:
         
         self.evaluation_text = scrolledtext.ScrolledText(eval_frame, height=35, width=140)
         self.evaluation_text.pack(fill=tk.BOTH, expand=True)
-    
+
     def setup_best_position_tab(self):
         self.best_frame = ttk.Frame(self.notebook)
         self.notebook.add(self.best_frame, text="Best Method Determination")
@@ -286,12 +286,12 @@ class GWOKMeansApp:
         best_controls.pack(fill=tk.X, pady=5)
         
         ttk.Button(best_controls, text="Show Best Result", 
-                  command=self.show_best_result).pack(side=tk.LEFT, padx=5)
+                    command=self.show_best_result).pack(side=tk.LEFT, padx=5)
         ttk.Button(best_controls, text="Final Dashboard", 
-                  command=self.show_final_dashboard).pack(side=tk.LEFT, padx=5)
+                    command=self.show_final_dashboard).pack(side=tk.LEFT, padx=5)
         ttk.Button(best_controls, text="Export Results", 
-                  command=self.export_best_results).pack(side=tk.LEFT, padx=5)
-    
+                    command=self.export_best_results).pack(side=tk.LEFT, padx=5)
+
     def setup_logs_tab(self):
         self.logs_frame = ttk.Frame(self.notebook)
         self.notebook.add(self.logs_frame, text="Process Logs")
@@ -305,7 +305,7 @@ class GWOKMeansApp:
         
         # Clear logs button
         ttk.Button(log_frame, text="Clear Logs", 
-                  command=lambda: self.log_text.delete(1.0, tk.END)).pack(pady=5)
+                    command=lambda: self.log_text.delete(1.0, tk.END)).pack(pady=5)
 
     # Data handling methods
     def upload_file(self):
@@ -334,7 +334,7 @@ class GWOKMeansApp:
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to load file:\n{str(e)}")
                 self.log(f"Error loading file: {str(e)}")
-    
+
     def update_data_preview(self):
         # Clear existing data
         for item in self.tree.get_children():
@@ -365,7 +365,7 @@ class GWOKMeansApp:
         self._disable_buttons()
         
         threading.Thread(target=self._process_and_pca, daemon=True).start()
-    
+
     def _process_and_pca(self):
         try:
             self.log("="*80)
@@ -401,7 +401,7 @@ class GWOKMeansApp:
         
         finally:
             self.root.after(0, self._enable_buttons)
-    
+
     def _preprocess_data(self):
         # Remove gender column if exists
         cols_drop = [c for c in ["gender"] if c in self.df.columns]
@@ -454,7 +454,7 @@ class GWOKMeansApp:
         self.X_preprocessed = scaler.fit_transform(X_num)
         
         self.log(f"Data preprocessing completed: {self.X_preprocessed.shape}")
-    
+
     def _perform_pca(self):
         variance_threshold = self.pca_variance_var.get()
         
@@ -478,12 +478,12 @@ class GWOKMeansApp:
     # Complete GWO Algorithm Implementation
     def assign_labels(self, X, C):
         return np.argmin(pairwise_distances(X, C, metric="euclidean"), axis=1)
-    
+
     def wcss(self, X, C):
         lbl = self.assign_labels(X, C)
         d2 = pairwise_distances(X, C, metric="euclidean")**2
         return float(np.sum(d2[np.arange(X.shape[0]), lbl]))
-    
+
     def repair_empty_clusters(self, X, C):
         k = C.shape[0]
         labels = self.assign_labels(X, C)
@@ -493,7 +493,7 @@ class GWOKMeansApp:
                 idx = np.argmax(D.min(axis=1))
                 C[j] = X[idx]
         return C
-    
+
     def mini_lloyd_local(self, X, C0, steps=1):
         C = C0.copy()
         for _ in range(steps):
@@ -504,9 +504,9 @@ class GWOKMeansApp:
                 if len(pts) > 0:
                     C[j] = pts.mean(axis=0)
         return self.wcss(X, C), C
-    
+
     def gwo_only_with_history(self, X, k, wolves=24, iters=25, random_state=42, 
-                             local_refine_steps=1, patience=6, reinit_rate=0.15):
+                                local_refine_steps=1, patience=6, reinit_rate=0.15):
         rng = np.random.RandomState(random_state)
         n, d = X.shape
         xmin, xmax = X.min(axis=0), X.max(axis=0)
@@ -595,7 +595,6 @@ class GWOKMeansApp:
             iter_times.append(t_iter)
             
             self.log(f"[GWO] iter={t:02d} | time={t_iter:.3f}s | best_WCSS={f_alpha:.6f}")
-            self.log(f"      Silhouette: {sil:.6f} | CH: {ch:.6f} | DB: {db:.6f}")
             
             # Early stopping
             if f_alpha + 1e-9 < best_so_far:
@@ -609,7 +608,7 @@ class GWOKMeansApp:
         
         total_time = time.perf_counter() - t0_global
         return alpha, history, iter_times, total_time, metrics_hist
-    
+
     def best_from_history(self, X, history):
         best = None
         for it, C in history:
@@ -627,7 +626,7 @@ class GWOKMeansApp:
         self._disable_buttons()
         
         threading.Thread(target=self._run_complete_analysis, daemon=True).start()
-    
+
     def _run_complete_analysis(self):
         self.log("\n" + "="*80)
         self.log("STARTING COMPLETE CLUSTERING ANALYSIS")
@@ -654,7 +653,7 @@ class GWOKMeansApp:
         
         # Switch to results tab
         self.root.after(0, lambda: self.notebook.select(4))  # Best position tab
-    
+
     def run_standard_kmeans(self):
         if self.X_pca is None:
             messagebox.showerror("Error", "Please process data and run PCA first!")
@@ -663,7 +662,7 @@ class GWOKMeansApp:
         self._disable_buttons()
         
         threading.Thread(target=self._run_standard_kmeans, daemon=True).start()
-    
+
     def _run_standard_kmeans(self):
         try:
             self.log("Starting Standard K-Means clustering...")
@@ -687,7 +686,7 @@ class GWOKMeansApp:
             self.log("Running multiple K-Means initializations...")
             for init_run in range(10):
                 kmeans = KMeans(n_clusters=k, random_state=seed+init_run, 
-                              max_iter=max_iter, n_init=1, algorithm='lloyd')
+                                max_iter=max_iter, n_init=1, algorithm='lloyd')
                 kmeans.fit(self.X_pca)
                 
                 if kmeans.inertia_ < best_inertia:
@@ -734,7 +733,7 @@ class GWOKMeansApp:
         
         finally:
             self.root.after(0, self._enable_buttons)
-    
+
     def run_gwo_optimization(self):
         if self.X_pca is None:
             messagebox.showerror("Error", "Please process data and run PCA first!")
@@ -743,7 +742,7 @@ class GWOKMeansApp:
         self._disable_buttons()
         
         threading.Thread(target=self._run_gwo_optimization, daemon=True).start()
-    
+
     def _run_gwo_optimization(self):
         try:
             self.log("Starting GWO-K-Means optimization...")
@@ -888,8 +887,8 @@ class GWOKMeansApp:
         # Individual component variance
         ax1 = self.pca_fig.add_subplot(221)
         bars = ax1.bar(range(1, components_to_show + 1), 
-                      self.explained_variance_ratio[:components_to_show], 
-                      color='steelblue', alpha=0.7, edgecolor='black')
+                        self.explained_variance_ratio[:components_to_show], 
+                        color='steelblue', alpha=0.7, edgecolor='black')
         
         ax1.set_xlabel('Principal Component')
         ax1.set_ylabel('Explained Variance Ratio')
@@ -930,7 +929,7 @@ class GWOKMeansApp:
         
         plt.tight_layout()
         self.pca_canvas.draw()
-    
+
     def show_pca_components(self):
         """Show PCA components heatmap"""
         if self.pca_model is None:
@@ -944,7 +943,7 @@ class GWOKMeansApp:
         features_to_show = min(20, self.pca_model.components_.shape[1])
         
         im = ax1.imshow(self.pca_model.components_[:components_to_show, :features_to_show], 
-                       aspect='auto', cmap='RdBu_r')
+                        aspect='auto', cmap='RdBu_r')
         ax1.set_xlabel('Original Features')
         ax1.set_ylabel('Principal Components')
         ax1.set_title('PCA Components Loading Matrix')
@@ -966,7 +965,7 @@ class GWOKMeansApp:
         
         plt.tight_layout()
         self.pca_canvas.draw()
-    
+
     def show_cumulative_variance(self):
         """Show cumulative variance plot"""
         if self.explained_variance_ratio is None:
@@ -983,13 +982,13 @@ class GWOKMeansApp:
         ax.axhline(y=0.90, color='yellow', linestyle='--', alpha=0.7, label='90% threshold')
         ax.axhline(y=0.95, color='red', linestyle='--', alpha=0.7, label='95% threshold')
         ax.axhline(y=self.pca_variance_var.get(), color='green', linestyle='-', linewidth=3, 
-                  alpha=0.8, label=f'{self.pca_variance_var.get():.0%} selected')
+                    alpha=0.8, label=f'{self.pca_variance_var.get():.0%} selected')
         
         # Mark selected point
         selected_components = len(self.explained_variance_ratio)
         ax.scatter([selected_components], [cumsum[selected_components-1]], 
-                  color='green', s=200, marker='*', zorder=5, 
-                  label=f'{selected_components} components')
+                    color='green', s=200, marker='*', zorder=5, 
+                    label=f'{selected_components} components')
         
         ax.set_xlabel('Number of Principal Components')
         ax.set_ylabel('Cumulative Explained Variance Ratio')
@@ -1000,7 +999,7 @@ class GWOKMeansApp:
         
         plt.tight_layout()
         self.pca_canvas.draw()
-    
+
     def show_2d_projection(self):
         """Show 2D PCA projection"""
         if self.X_pca2 is None:
@@ -1017,7 +1016,7 @@ class GWOKMeansApp:
         
         plt.tight_layout()
         self.pca_canvas.draw()
-    
+
     def show_pca_biplot(self):
         """Show PCA biplot with loadings"""
         if self.pca2_model is None:
@@ -1042,8 +1041,8 @@ class GWOKMeansApp:
                 ax.arrow(0, 0, loadings[i, 0] * loading_scale, loadings[i, 1] * loading_scale,
                         head_width=0.05, head_length=0.05, fc='red', ec='red', alpha=0.8)
                 ax.text(loadings[i, 0] * loading_scale * 1.1, loadings[i, 1] * loading_scale * 1.1,
-                       feature_names[i], fontsize=9, ha='center', va='center',
-                       bbox=dict(boxstyle='round,pad=0.3', facecolor='yellow', alpha=0.7))
+                        feature_names[i], fontsize=9, ha='center', va='center',
+                        bbox=dict(boxstyle='round,pad=0.3', facecolor='yellow', alpha=0.7))
         
         ax.set_xlabel(f'PC1 ({self.pca2_model.explained_variance_ratio_[0]:.3f} variance)')
         ax.set_ylabel(f'PC2 ({self.pca2_model.explained_variance_ratio_[1]:.3f} variance)')
@@ -1054,7 +1053,7 @@ class GWOKMeansApp:
         
         plt.tight_layout()
         self.pca_canvas.draw()
-    
+
     def show_side_by_side_clusters(self):
         """Show side-by-side clustering comparison"""
         if self.kmeans_labels is None and self.gwo_labels is None:
@@ -1066,13 +1065,13 @@ class GWOKMeansApp:
             # Side by side comparison
             ax1 = self.fig.add_subplot(121)
             scatter1 = ax1.scatter(self.X_pca2[:, 0], self.X_pca2[:, 1], c=self.kmeans_labels, 
-                                 cmap='tab10', alpha=0.7, s=50)
+                                    cmap='tab10', alpha=0.7, s=50)
             
             # K-means centroids in 2D projection
             k_centers2d = np.array([self.X_pca2[self.kmeans_labels == c].mean(axis=0) 
-                                  for c in np.unique(self.kmeans_labels)])
+                                    for c in np.unique(self.kmeans_labels)])
             ax1.scatter(k_centers2d[:, 0], k_centers2d[:, 1], s=300, marker='X', 
-                       c='red', edgecolor='black', linewidth=2, label='Centroids')
+                        c='red', edgecolor='black', linewidth=2, label='Centroids')
             
             ax1.set_title(f'Standard K-Means\nWCSS: {self.kmeans_results["inertia"]:.4f}\nSilhouette: {self.kmeans_results["silhouette"]:.4f}')
             ax1.set_xlabel(f'PC1 ({self.pca2_model.explained_variance_ratio_[0]:.3f})')
@@ -1082,13 +1081,13 @@ class GWOKMeansApp:
             
             ax2 = self.fig.add_subplot(122)
             scatter2 = ax2.scatter(self.X_pca2[:, 0], self.X_pca2[:, 1], c=self.gwo_labels, 
-                                 cmap='tab10', alpha=0.7, s=50)
+                                    cmap='tab10', alpha=0.7, s=50)
             
             # GWO centroids in 2D projection  
             g_centers2d = np.array([self.X_pca2[self.gwo_labels == c].mean(axis=0) 
-                                  for c in np.unique(self.gwo_labels)])
+                                    for c in np.unique(self.gwo_labels)])
             ax2.scatter(g_centers2d[:, 0], g_centers2d[:, 1], s=300, marker='X', 
-                       c='red', edgecolor='black', linewidth=2, label='Centroids')
+                        c='red', edgecolor='black', linewidth=2, label='Centroids')
             
             ax2.set_title(f'GWO-K-Means\nWCSS: {self.gwo_results["best_wcss"]:.4f}\nSilhouette: {self.gwo_results["silhouette"]:.4f}')
             ax2.set_xlabel(f'PC1 ({self.pca2_model.explained_variance_ratio_[0]:.3f})')
@@ -1099,28 +1098,28 @@ class GWOKMeansApp:
         elif self.kmeans_labels is not None:
             ax = self.fig.add_subplot(111)
             scatter = ax.scatter(self.X_pca2[:, 0], self.X_pca2[:, 1], c=self.kmeans_labels, 
-                               cmap='tab10', alpha=0.7, s=50)
+                                cmap='tab10', alpha=0.7, s=50)
             centers2d = np.array([self.X_pca2[self.kmeans_labels == c].mean(axis=0) 
                                 for c in np.unique(self.kmeans_labels)])
             ax.scatter(centers2d[:, 0], centers2d[:, 1], s=300, marker='X', 
-                      c='red', edgecolor='black', linewidth=2)
+                        c='red', edgecolor='black', linewidth=2)
             ax.set_title('Standard K-Means Clustering')
             ax.grid(True, alpha=0.3)
             
         elif self.gwo_labels is not None:
             ax = self.fig.add_subplot(111)
             scatter = ax.scatter(self.X_pca2[:, 0], self.X_pca2[:, 1], c=self.gwo_labels, 
-                               cmap='tab10', alpha=0.7, s=50)
+                                cmap='tab10', alpha=0.7, s=50)
             centers2d = np.array([self.X_pca2[self.gwo_labels == c].mean(axis=0) 
                                 for c in np.unique(self.gwo_labels)])
             ax.scatter(centers2d[:, 0], centers2d[:, 1], s=300, marker='X', 
-                      c='red', edgecolor='black', linewidth=2)
+                        c='red', edgecolor='black', linewidth=2)
             ax.set_title('GWO-K-Means Clustering')
             ax.grid(True, alpha=0.3)
         
         plt.tight_layout()
         self.canvas.draw()
-    
+
     def show_metrics_comparison(self):
         """Show metrics comparison visualization"""
         if not (self.kmeans_results and self.gwo_results):
@@ -1147,9 +1146,9 @@ class GWOKMeansApp:
         width = 0.35
         
         bars1 = ax1.bar(x - width/2, kmeans_values, width, label='K-Means', 
-                       alpha=0.8, color='skyblue')
+                        alpha=0.8, color='skyblue')
         bars2 = ax1.bar(x + width/2, gwo_values, width, label='GWO-K-Means', 
-                       alpha=0.8, color='orange')
+                        alpha=0.8, color='orange')
         
         ax1.set_xlabel('Quality Metrics')
         ax1.set_ylabel('Metric Values')
@@ -1212,7 +1211,7 @@ class GWOKMeansApp:
         
         plt.tight_layout()
         self.canvas.draw()
-    
+
     def show_convergence_analysis(self):
         """Show convergence analysis for both methods"""
         if not (self.kmeans_results and self.gwo_results):
@@ -1294,7 +1293,7 @@ class GWOKMeansApp:
         
         plt.tight_layout()
         self.canvas.draw()
-    
+
     def show_quality_heatmap(self):
         """Show quality metrics heatmap comparison"""
         if not (self.kmeans_results and self.gwo_results):
@@ -1306,7 +1305,7 @@ class GWOKMeansApp:
         metrics_data = {
             'Silhouette': [self.kmeans_results['silhouette'], self.gwo_results['silhouette']],
             'Calinski-H': [self.kmeans_results['calinski_harabasz']/1000, 
-                          self.gwo_results['calinski_harabasz']/1000],
+                            self.gwo_results['calinski_harabasz']/1000],
             'Davies-B\n(inverted)': [1/self.kmeans_results['davies_bouldin'], 
                                     1/self.gwo_results['davies_bouldin']],
             'WCSS\n(inverted)': [1/self.kmeans_results['inertia']*10000, 
@@ -1347,7 +1346,7 @@ class GWOKMeansApp:
                 text_color = 'white' if normalized_val < 0.5 else 'black'
                 
                 ax.text(j, i, f'{original_val:.3f}', ha='center', va='center',
-                       color=text_color, fontweight='bold')
+                        color=text_color, fontweight='bold')
         
         # Add colorbar
         cbar = plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
@@ -1357,7 +1356,7 @@ class GWOKMeansApp:
         
         plt.tight_layout()
         self.canvas.draw()
-    
+
     def show_cluster_quality_analysis(self):
         """Show detailed cluster quality analysis"""
         if not (self.kmeans_labels is not None or self.gwo_labels is not None):
@@ -1438,7 +1437,7 @@ class GWOKMeansApp:
                     y_upper = y_pos + size_cluster
                     
                     ax3.fill_betweenx(np.arange(y_pos, y_upper), 0, cluster_silhouette_vals,
-                                     facecolor=color, alpha=0.7)
+                                        facecolor=color, alpha=0.7)
                     
                     # Add cluster label
                     ax3.text(-0.05, y_pos + 0.5 * size_cluster, f'{method[0]}{cluster_id}',
@@ -1449,10 +1448,10 @@ class GWOKMeansApp:
             # Add average silhouette scores
             if self.kmeans_results:
                 ax3.axvline(x=self.kmeans_results['silhouette'], color='red', linestyle='--', 
-                           label=f'K-Means avg: {self.kmeans_results["silhouette"]:.3f}')
+                            label=f'K-Means avg: {self.kmeans_results["silhouette"]:.3f}')
             if self.gwo_results:
                 ax3.axvline(x=self.gwo_results['silhouette'], color='green', linestyle='--',
-                           label=f'GWO avg: {self.gwo_results["silhouette"]:.3f}')
+                            label=f'GWO avg: {self.gwo_results["silhouette"]:.3f}')
             
             ax3.set_xlabel('Silhouette Score')
             ax3.set_ylabel('Cluster Samples')
@@ -1545,7 +1544,7 @@ class GWOKMeansApp:
         centers2d = np.array([self.X_pca2[best_labels == c].mean(axis=0) 
                             for c in np.unique(best_labels)])
         ax1.scatter(centers2d[:, 0], centers2d[:, 1], s=400, marker='*', 
-                   c='red', edgecolor='black', linewidth=2, label='Centroids')
+                    c='red', edgecolor='black', linewidth=2, label='Centroids')
         
         for i, (cx, cy) in enumerate(centers2d):
             ax1.text(cx, cy, f'C{i}', ha='center', va='center', fontweight='bold', 
@@ -1584,9 +1583,9 @@ class GWOKMeansApp:
         
         metrics = ['Silhouette', 'Calinski-H', 'Davies-B', 'WCSS']
         values = [best_results['silhouette'], best_results['calinski_harabasz']/1000,
-                 best_results['davies_bouldin'], wcss_val/1000]
+                    best_results['davies_bouldin'], wcss_val/1000]
         colors = ['green' if v > 0.5 else 'orange' if v > 0.25 else 'red' for v in 
-                 [best_results['silhouette'], 0.8, 1/best_results['davies_bouldin'], 0.8]]
+                    [best_results['silhouette'], 0.8, 1/best_results['davies_bouldin'], 0.8]]
         
         bars = ax3.bar(metrics, values, color=colors, alpha=0.8, edgecolor='black')
         
@@ -1630,11 +1629,11 @@ class GWOKMeansApp:
         
         # Add colored background
         ax4.add_patch(plt.Rectangle((0.1, 0.1), 0.8, 0.8, 
-                                  facecolor=quality_color, alpha=0.2, transform=ax4.transAxes))
+                                    facecolor=quality_color, alpha=0.2, transform=ax4.transAxes))
         
         plt.tight_layout()
         self.best_canvas.draw()
-    
+
     def show_final_dashboard(self):
         if not hasattr(self, 'best_method') or not self.best_method:
             return
@@ -1663,7 +1662,7 @@ class GWOKMeansApp:
         centers2d = np.array([self.X_pca2[best_labels == c].mean(axis=0) 
                             for c in np.unique(best_labels)])
         ax_main.scatter(centers2d[:, 0], centers2d[:, 1], s=300, marker='*', 
-                      c='red', edgecolor='black', linewidth=2)
+                        c='red', edgecolor='black', linewidth=2)
         
         ax_main.set_xlabel(f'PC1 ({self.pca2_model.explained_variance_ratio_[0]:.3f})')
         ax_main.set_ylabel(f'PC2 ({self.pca2_model.explained_variance_ratio_[1]:.3f})')
@@ -1673,7 +1672,7 @@ class GWOKMeansApp:
         # Additional dashboard components would go here
         plt.tight_layout()
         self.best_canvas.draw()
-    
+
     def export_best_results(self):
         if not hasattr(self, 'best_method') or not self.best_method:
             messagebox.showwarning("Warning", "No results to export!")
@@ -1743,18 +1742,18 @@ class GWOKMeansApp:
         
         # Show initial PCA visualization
         self.show_explained_variance()
-    
+
     def _update_results_displays(self):
         self._update_comparison_display()
         self._update_evaluation_display()
         if hasattr(self, 'best_method') and self.best_method:
             self._update_best_position_display()
-    
+
     def _update_all_displays(self):
         self._update_comparison_display()
         self._update_evaluation_display()
         self._update_best_position_display()
-    
+
     def _update_comparison_display(self):
         comparison_text = "COMPREHENSIVE CLUSTERING COMPARISON ANALYSIS\n" + "="*100 + "\n\n"
         
@@ -1780,7 +1779,7 @@ class GWOKMeansApp:
         
         self.comparison_text.delete(1.0, tk.END)
         self.comparison_text.insert(1.0, comparison_text)
-    
+
     def _update_evaluation_display(self):
         eval_text = "COMPREHENSIVE CLUSTERING QUALITY EVALUATION\n" + "="*120 + "\n\n"
         
@@ -1802,7 +1801,7 @@ class GWOKMeansApp:
         
         self.evaluation_text.delete(1.0, tk.END)
         self.evaluation_text.insert(1.0, eval_text)
-    
+
     def _update_best_position_display(self):
         if not hasattr(self, 'best_method') or not self.best_method:
             return
@@ -1840,7 +1839,7 @@ class GWOKMeansApp:
         
         # Show the best clustering result
         self.show_best_result()
-    
+
     # Utility methods
     def _disable_buttons(self):
         self.process_data_button.config(state='disabled')
@@ -1848,7 +1847,7 @@ class GWOKMeansApp:
         self.run_gwo_button.config(state='disabled')
         self.run_all_button.config(state='disabled')
         self.progress.start()
-    
+
     def _enable_buttons(self):
         self.process_data_button.config(state='normal')
         if self.X_pca is not None:
@@ -1856,7 +1855,7 @@ class GWOKMeansApp:
             self.run_gwo_button.config(state='normal')
             self.run_all_button.config(state='normal')
         self.progress.stop()
-    
+
     def log(self, message):
         timestamp = time.strftime("%H:%M:%S")
         log_message = f"[{timestamp}] {message}\n"
@@ -1865,11 +1864,11 @@ class GWOKMeansApp:
         self.root.update()
 
 
-def main():
+    def main():
     root = tk.Tk()
     app = GWOKMeansApp(root)
     root.mainloop()
 
 
-if __name__ == "__main__":
+    if __name__ == "__main__":
     main()
